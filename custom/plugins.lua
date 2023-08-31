@@ -1,35 +1,39 @@
-local overrides = require "custom.configs.overrides"
 
 local plugins = {
-
-  {
-    "nvimdev/guard.nvim",
-    config = function()
-      require "custom.configs.guard"
-    end
-  },
   {
     "neovim/nvim-lspconfig",
     config = function()
       require "plugins.configs.lspconfig"
       require "custom.configs.lspconfig"
-    end, -- Override to setup mason-lspconfig
+    end
   },
 
   -- override plugin configs
   {
     "williamboman/mason.nvim",
-    opts = overrides.mason,
+    opts = {
+      ensure_installed = {
+        "gopls",
+        "rust-analyzer"
+      }
+    }
   },
 
   {
     "nvim-treesitter/nvim-treesitter",
-    opts = overrides.treesitter,
+    opts = {
+      ensure_installed = {
+        "lua",
+      },
+      indent = {
+        enable = true,
+      },
+    }
   },
 
   {
     "nvim-tree/nvim-tree.lua",
-    opts = overrides.nvimtree,
+    -- opt = { git = {enabled =true}} 
   },
 
   -- Install a plugin
@@ -41,8 +45,10 @@ local plugins = {
   },
 
   {
-    "mg979/vim-visual-multi",
-    lazy = false,
+    "otavioschwanck/cool-substitute.nvim",
+    init = function()
+      return require "custom.configs.cool-subs"
+    end
   },
   {
     "dreamsofcode-io/nvim-dap-go",
