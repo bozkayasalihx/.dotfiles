@@ -4,7 +4,6 @@ local M = {}
 M.general = {
   n = {
     [";"] = { ":", "enter command mode", opts = { nowait = true } },
-
     ["<c-]>"] = { "<cmd> vsplit <CR>", "Split Window Verticaly" },
     ["<c-[>"] = { "<cmd> split <CR>", "Split Window Horizontally" },
   },
