@@ -32,6 +32,14 @@ lspconfig.rust_analyzer.setup({
       cargo = {
         allFeatures = true,
       },
+      diagnostics = {
+          enable = false,
+          disabled = {"unresolved-proc-macro"},
+          enableExperimental = false,
+      },
+      procMacro = {
+          enable = false
+      },
     },
   },
 })

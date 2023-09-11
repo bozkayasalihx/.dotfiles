@@ -1,6 +1,5 @@
 vim.opt.guicursor = ""
-vim.opt.mouse = ""
-
+vim.opt.relativenumber =true
 vim.keymap.set(
   "n",
   "<C-p>",
@@ -22,3 +21,12 @@ vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.format()]]
 vim.keymap.set('n', '<S-e>', vim.diagnostic.open_float)
 
 vim.cmd [[autocmd BufWritePre <buffer> lua vim.diagnostic.hide()]]
+
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+ vim.lsp.diagnostic.on_publish_diagnostics, {
+   underline = true,
+   virtual_text = false,
+ }
+)
+
