@@ -45,12 +45,6 @@ local plugins = {
   },
 
   {
-    "otavioschwanck/cool-substitute.nvim",
-    init = function()
-      return require "custom.configs.cool-subs"
-    end
-  },
-  {
     "dreamsofcode-io/nvim-dap-go",
     ft = "go",
     dependencies = "mfussenegger/nvim-dap",
@@ -85,24 +79,9 @@ local plugins = {
       vim.g.rustfmt_autosave =  1
     end
   },
--- lazy.nvim:
+
   {
-      "smoka7/multicursors.nvim",
-      event = "VeryLazy",
-      dependencies = {
-          'nvim-treesitter/nvim-treesitter',
-          'smoka7/hydra.nvim',
-      },
-      opts = {},
-      cmd = { 'MCstart', 'MCvisual', 'MCclear', 'MCpattern', 'MCvisualPattern', 'MCunderCursor' },
-      keys = {
-              {
-                  mode = { 'v', 'n' },
-                  '<Leader>m',
-                  '<cmd>MCstart<cr>',
-                  desc = 'Create a selection for selected text or word under the cursor',
-              },
-          },
+    "mg979/vim-visual-multi"
   },
   {
     "NvChad/nvterm",
