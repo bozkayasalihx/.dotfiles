@@ -3,8 +3,9 @@ local M = {}
 
 M.general = {
   n = {
-    ["<c-]>"] = { "<cmd> vsplit <CR>", "Split Window Verticaly" },
-    ["<c-[>"] = { "<cmd> split <CR>", "Split Window Horizontally" },
+    ["<C-]>"] = { "<cmd>vsplit<CR>", "Split Window Verticaly" },
+    ["<C-[>"] = { "<cmd>split<CR>", "Split Window Horizontally" },
+    ["<C-n>"] = { "<cmd>Dired<CR>", "open Dired buffer"}
   },
   i = {
     ["zz"] = { "<Esc>", "Replace <Esc> to zz" },
@@ -62,6 +63,10 @@ M.gopher = {
 }
 
 M.telescope = {
+  plugin = false,
+}
+
+M.nvimtree = {
   plugin = false,
 }
 
