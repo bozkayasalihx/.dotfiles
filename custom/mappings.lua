@@ -5,7 +5,8 @@ M.general = {
   n = {
     ["<C-]>"] = { "<cmd>vsplit<CR>", "Split Window Verticaly" },
     ["<C-[>"] = { "<cmd>split<CR>", "Split Window Horizontally" },
-    ["<C-n>"] = { "<cmd>Dired<CR>", "open Dired buffer"}
+    ["<C-n>"] = {"<cmd>Dired<CR>", "open Dired buffer"},
+    ["<leader>gh"] = { "<cmd>Neogit<CR>"},
   },
   i = {
     ["zz"] = { "<Esc>", "Replace <Esc> to zz" },
