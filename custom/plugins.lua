@@ -31,11 +31,36 @@ local plugins = {
     }
   },
 
+
   {
-    "nvim-tree/nvim-tree.lua",
-    -- opt = { git = {enabled =true}} 
+    "NeogitOrg/neogit",
+    dependencies = {
+      "nvim-lua/plenary.nvim",         -- required
+      "nvim-telescope/telescope.nvim", -- optional
+      "sindrets/diffview.nvim",        -- optional
+      "ibhagwan/fzf-lua",              -- optional
+    },
+    config = true,
+    lazy =  false,
   },
 
+  {
+
+    "X3eRo0/dired.nvim",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+    },
+    lazy = false,
+    config = function()
+        require("dired").setup {
+            path_separator = "/",
+            show_banner = false,
+            show_hidden = true,
+            show_dot_dirs = true,
+            show_colors = true,
+        }
+    end
+  },
   -- Install a plugin
   {
     "mfussenegger/nvim-dap",
@@ -79,7 +104,24 @@ local plugins = {
       vim.g.rustfmt_autosave =  1
     end
   },
-
+  {
+      "smoka7/multicursors.nvim",
+      event = "VeryLazy",
+      dependencies = {
+          'nvim-treesitter/nvim-treesitter',
+          'smoka7/hydra.nvim',
+      },
+      opts = {},
+      cmd = { 'MCstart', 'MCvisual', 'MCclear', 'MCpattern', 'MCvisualPattern', 'MCunderCursor' },
+      keys = {
+              {
+                  mode = { 'v', 'n' },
+                  '<Leader>m',
+                  '<cmd>MCstart<cr>',
+                  desc = 'Create a selection for selected text or word under the cursor',
+              },
+      },
+  },
   {
     "mg979/vim-visual-multi"
   },
