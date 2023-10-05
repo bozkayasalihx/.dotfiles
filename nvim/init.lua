@@ -491,11 +491,7 @@ vim.wo.number = true
 
 -- Enable mouse mode
 vim.o.mouse = 'a'
-<<<<<<< HEAD
 vim.o.tabstop = 4
-
-=======
->>>>>>> devel
 
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
@@ -504,10 +500,7 @@ vim.o.clipboard = 'unnamedplus'
 
 -- Enable break indent
 vim.o.breakindent = true
-<<<<<<< HEAD
 vim.o.wrap = false
-=======
->>>>>>> devel
 
 -- Save undo history
 vim.o.undofile = true
