@@ -535,7 +535,10 @@ vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = tr
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 vim.keymap.set("n", "<C-o>", "<cmd>Dired<CR>", opt)
 vim.cmd [[inoremap zz <Esc>]]
-
+vim.keymap.set("n", "<C-k>", "<cmd>wincmd k<CR>", opts)
+vim.keymap.set("n", "<C-j>", "<cmd>wincmd j<CR>", opts)
+vim.keymap.set("n", "<C-h>", "<cmd>wincmd h<CR>", opts)
+vim.keymap.set("n", "<C-l>", "<cmd>wincmd l<CR>", opts)
 
 vim.o.hlsearch = false
 vim.opt.relativenumber = true
