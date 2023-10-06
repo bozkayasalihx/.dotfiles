@@ -8,7 +8,7 @@ return {
     require("nvterm").setup {
       terminals = {
         shell = vim.o.shell,
-        type = "horizontal",
+        type = "float",
         list = {},
         type_opts = {
           float = {

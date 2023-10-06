@@ -13,6 +13,7 @@ if not vim.loop.fs_stat(lazypath) then
     lazypath,
   }
 end
+
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
@@ -223,6 +224,7 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
 vim.keymap.set("n", "<C-\\>", require("nvterm.terminal").toggle, { desc = "Show the Terminal" })
 vim.keymap.set("t", "<C-\\>", require("nvterm.terminal").toggle, { desc = "Show the Terminal" })
+vim.keymap.set("n", "<S-e>", vim.diagnostic.open_float, { desc = "show floting diagnostic menu" })
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -533,12 +535,15 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-vim.keymap.set("n", "<C-o>", "<cmd>Dired<CR>", opt)
-vim.cmd [[inoremap zz <Esc>]]
+vim.keymap.set("n", "<C-b>", "<cmd>Dired<CR>", opt)
+vim.cmd [[inoremap zz <esc>]]
 vim.keymap.set("n", "<C-k>", "<cmd>wincmd k<CR>", opts)
 vim.keymap.set("n", "<C-j>", "<cmd>wincmd j<CR>", opts)
 vim.keymap.set("n", "<C-h>", "<cmd>wincmd h<CR>", opts)
 vim.keymap.set("n", "<C-l>", "<cmd>wincmd l<CR>", opts)
+vim.keymap.set("n", "<C-]>", "<cmd>vsplit<CR>", opts)
+vim.keymap.set("n", "<C-[>", "<cmd>split<CR>", opts)
+vim.keymap.set("n", "<esc>", "<esc>:noh<cr>", { noremap = true })
 
 vim.o.hlsearch = false
 vim.opt.relativenumber = true
@@ -548,7 +553,7 @@ vim.cmd [[autocmd BufWritePre <buffer> lua vim.diagnostic.hide()]]
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
-    underline = false,
+    underline = true,
     virtual_text = false,
   }
 )
