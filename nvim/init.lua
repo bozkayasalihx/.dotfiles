@@ -102,9 +102,12 @@ require('lazy').setup({
     config = function(_, opt)
       require("focus").setup({
         ui = {
+          cursorline = false,
+          cursorcolumn = false,
           colorcolumn = {
             enable = true,
-            list = '+1,+2'
+            list = '+1,+2',
+            cursorline = false,
           },
           winhighlight = true,
         }
