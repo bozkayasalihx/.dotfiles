@@ -95,6 +95,22 @@ require('lazy').setup({
       vim.cmd.colorscheme 'phoenix'
     end,
   },
+  {
+    'nvim-focus/focus.nvim',
+    version = false,
+    lazy = false,
+    config = function(_, opt)
+      require("focus").setup({
+        ui = {
+          colorcolumn = {
+            enable = true,
+            list = '+1,+2'
+          },
+          winhighlight = true,
+        }
+      })
+    end
+  },
 
   {
     -- Set lualine as statusline
@@ -103,7 +119,6 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'onedark',
         component_separators = '|',
         section_separators = '',
       },
@@ -207,7 +222,7 @@ vim.keymap.set('n', '<leader>/', function()
 end, { desc = '[/] Fuzzily search in current buffer' })
 
 vim.keymap.set("n", "<C-p>", function()
-  function inner()
+  local function inner()
     return require("telescope.builtin").git_files()
   end
 
@@ -489,7 +504,8 @@ cmp.setup {
 -- Set highlight on search
 
 -- Make line numbers default
-local opt = { unique = true, silent = true, noremap = true }
+local Uopts = { unique = true, silent = true, noremap = true }
+local opts = { silent = true, noremap = true }
 vim.wo.number = true
 
 -- Enable mouse mode
@@ -527,23 +543,39 @@ vim.o.completeopt = 'menuone,noselect'
 vim.o.termguicolors = true
 vim.opt.guicursor = ""
 -- [[ Basic Keymaps ]]
+local builtin = require('telescope.builtin')
 
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
 -- Remap for dealing with word wrap
+vim.cmd [[inoremap zz <esc>]]
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-vim.keymap.set("n", "<C-b>", "<cmd>Dired<CR>", opt)
-vim.cmd [[inoremap zz <esc>]]
+vim.keymap.set("n", "<C-m>", "<cmd>Dired<CR>", opts)
 vim.keymap.set("n", "<C-k>", "<cmd>wincmd k<CR>", opts)
 vim.keymap.set("n", "<C-j>", "<cmd>wincmd j<CR>", opts)
 vim.keymap.set("n", "<C-h>", "<cmd>wincmd h<CR>", opts)
 vim.keymap.set("n", "<C-l>", "<cmd>wincmd l<CR>", opts)
-vim.keymap.set("n", "<C-]>", "<cmd>vsplit<CR>", opts)
-vim.keymap.set("n", "<C-[>", "<cmd>split<CR>", opts)
-vim.keymap.set("n", "<esc>", "<esc>:noh<cr>", { noremap = true })
+vim.keymap.set("n", "<esc>", "<esc>:noh<cr>", opts)
+
+vim.keymap.set("n", "<leader>ps", function()
+  builtin.grep_string({ search = vim.fn.input("Grep > ") })
+end)
+
+vim.keymap.set('n', '<c-]>', function()
+  require('focus').split_nicely()
+end, { desc = 'split nicely' })
+
+
+-- vim.keymap.set("n", "<C-]>", "<cmd>vsplit<CR>", opts)
+-- vim.keymap.set("n", "<C-[>", "<cmd>split<CR>", opts)
+
+-- vim.keymap.set("v", "<leader>a", function()
+--   local input = vim.fn.input(":'<,'>s/")
+--   print(input)
+-- end)
 
 vim.o.hlsearch = false
 vim.opt.relativenumber = true
