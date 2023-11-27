@@ -225,14 +225,14 @@ vim.keymap.set('n', '<leader>/', function()
 end, { desc = '[/] Fuzzily search in current buffer' })
 
 vim.keymap.set("n", "<C-p>", function()
-  local function inner()
-    return require("telescope.builtin").git_files()
-  end
-
-  local ok, _ = pcall(inner)
-  if not ok then
-    return require("telescope.builtin").find_files()
-  end
+  -- local function inner()
+  --   return require("telescope.builtin").git_files()
+  -- end
+  --
+  -- local ok, _ = pcall(inner)
+  -- if not ok then
+  return require("telescope.builtin").find_files()
+  -- end
 end, { desc = "Seach [G]it [F]iles" })
 vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
 vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
@@ -557,6 +557,7 @@ vim.cmd [[inoremap zz <esc>]]
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 vim.keymap.set("n", "<C-m>", "<cmd>Dired<CR>", opts)
+vim.keymap.set("n", "<leader>gg", "<cmd>Neogit<CR>", opts)
 vim.keymap.set("n", "<C-k>", "<cmd>wincmd k<CR>", opts)
 vim.keymap.set("n", "<C-j>", "<cmd>wincmd j<CR>", opts)
 vim.keymap.set("n", "<C-h>", "<cmd>wincmd h<CR>", opts)
@@ -583,6 +584,12 @@ end, { desc = 'split nicely' })
 vim.o.hlsearch = false
 vim.opt.relativenumber = true
 vim.opt.swapfile = false
+-- ADDED NEWLY
+vim.o.autoread = true
+vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
+  command = "if mode() != 'c' | checktime | endif",
+  pattern = { "*" },
+})
 
 vim.cmd [[autocmd BufWritePre <buffer> lua vim.diagnostic.hide()]]
 
