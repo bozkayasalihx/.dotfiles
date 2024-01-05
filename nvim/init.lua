@@ -51,7 +51,12 @@ require('lazy').setup({
     dependencies = {
       { 'williamboman/mason.nvim', config = true },
       'williamboman/mason-lspconfig.nvim',
-      { 'j-hui/fidget.nvim',       tag = 'legacy', opts = {} },
+
+      -- Useful status updates for LSP
+      -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
+      -- { 'j-hui/fidget.nvim',       tag = 'legacy', opts = {} },
+
+      -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
     },
   },
@@ -104,19 +109,21 @@ require('lazy').setup({
   },
   {
     'nvim-focus/focus.nvim',
-    version = false,
     lazy = false,
-    config = function(_, opt)
+    config = function()
       require("focus").setup({
+        autoresize = {
+          enable = false,
+        },
         ui = {
           cursorline = false,
           cursorcolumn = false,
           colorcolumn = {
             enable = true,
-            list = '+1,+2',
+            list = '+1',
             cursorline = false,
           },
-          winhighlight = true,
+          winhighlight = false,
         }
       })
     end
