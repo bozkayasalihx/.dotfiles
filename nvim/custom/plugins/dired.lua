@@ -1,5 +1,5 @@
 return {
-    -- dir = "/Users/salihbozkaya/Documents/ndired.nvim",
+    -- "X3eRo0/dired.nvim",
     "X3eRo0/dired.nvim",
     dependencies = {
         "MunifTanjim/nui.nvim",
