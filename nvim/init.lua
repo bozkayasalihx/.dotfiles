@@ -1,12 +1,11 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
-
+vim.o.signcolumn = 'no'
 
 vim.wo.number = true
 
 vim.o.mouse = 'a'
 vim.o.tabstop = 4
-
 
 vim.o.clipboard = 'unnamedplus'
 
@@ -35,7 +34,7 @@ if not vim.loop.fs_stat(lazypath) then
     'clone',
     '--filter=blob:none',
     'https://github.com/folke/lazy.nvim.git',
-    '--branch=stable', -- latest stable release
+    '--branch=stable',
     lazypath,
   }
 end
@@ -96,7 +95,8 @@ require('lazy').setup({
   },
 
   {
-    'bozkayasalihx/vim-phoenix',
+    -- 'bozkayasalihx/vim-phoenix',
+    dir = "/Users/salihbozkaya/Documents/vim-phoenix",
     priority = 1000,
     config = function()
       vim.cmd.colorscheme 'phoenix'
@@ -104,7 +104,6 @@ require('lazy').setup({
   },
   {
     'nvim-focus/focus.nvim',
-    version = false,
     lazy = false,
     config = function(_, opt)
       require("focus").setup({
@@ -117,7 +116,11 @@ require('lazy').setup({
             cursorline = false,
           },
           winhighlight = true,
-        }
+        },
+        commands = true,
+        autoresize = {
+          enable = true,
+        },
       })
     end
   },
@@ -286,7 +289,7 @@ vim.defer_fn(function()
 end, 0)
 
 
-local on_attach = function(_, bufnr)
+local on_attach = function(client, bufnr)
   local nmap = function(keys, func, desc)
     if desc then
       desc = 'LSP: ' .. desc
@@ -294,7 +297,6 @@ local on_attach = function(_, bufnr)
 
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
-
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
@@ -325,9 +327,20 @@ require('which-key').register({
   ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
 })
 
+local lsp_flags = {
+  -- This is the default in Nvim 0.7+
+  debounce_text_changes = 150,
+}
 
-local servers = {
-  clangd = {},
+local lsputil   = require "lspconfig.util"
+
+local servers   = {
+  clangd = {
+    filetypes = { "h", "c", "cpp", "cc", "objc", "objcpp", "cuda" },
+    flags = lsp_flags,
+    cmd = { "clangd", "--background-index", "--all-scopes-completion" },
+    single_file_support = true,
+  },
   pyright = {
     filetypes = { "python" },
   },
@@ -474,6 +487,12 @@ vim.opt.swapfile = false
 vim.o.autoread = true
 vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
   command = "if mode() != 'c' | checktime | endif",
+  pattern = { "*" },
+})
+
+
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
+  command = "setlocal signcolumn=no",
   pattern = { "*" },
 })
 
