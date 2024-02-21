@@ -1,29 +1,19 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.o.signcolumn = 'no'
-
 vim.wo.number = true
-
 vim.o.mouse = 'a'
 vim.o.tabstop = 4
-
 vim.o.clipboard = 'unnamedplus'
-
 vim.o.breakindent = true
 vim.o.wrap = false
-
 vim.o.undofile = true
-
 vim.o.ignorecase = true
 vim.o.smartcase = true
-
 vim.wo.signcolumn = 'yes'
-
 vim.o.updatetime = 250
 vim.o.timeoutlen = 300
-
 vim.o.completeopt = 'menuone,noselect'
-
 vim.o.termguicolors = true
 vim.opt.guicursor = ""
 
@@ -38,11 +28,8 @@ if not vim.loop.fs_stat(lazypath) then
     lazypath,
   }
 end
-
 vim.opt.rtp:prepend(lazypath)
-
 -- extensions
-
 require('lazy').setup({
   'tpope/vim-sleuth',
   {
@@ -93,10 +80,8 @@ require('lazy').setup({
       end,
     },
   },
-
   {
-    -- 'bozkayasalihx/vim-phoenix',
-    dir = "/Users/salihbozkaya/Documents/vim-phoenix",
+    'bozkayasalihx/vim-phoenix',
     priority = 1000,
     config = function()
       vim.cmd.colorscheme 'phoenix'
@@ -191,7 +176,6 @@ require('lazy').setup({
 }, {})
 
 -- extensions ends here
-
 -- keymaps
 
 -- vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
@@ -199,17 +183,12 @@ require('lazy').setup({
 -- vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
 -- vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
 -- vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
--- vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
+vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 -- vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 -- vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
 vim.keymap.set("n", "<C-p>", function()
   return require("telescope.builtin").find_files()
 end, { desc = "Seach all [F]iles" })
-
-vim.keymap.set("n", "<C-[>", function()
-  return require("telescope.builtin").git_files()
-end, { desc = "Seach [G]it [F]iles" })
-
 vim.keymap.set("n", "<C-\\>", require("nvterm.terminal").toggle, { desc = "Show the Terminal" })
 vim.keymap.set("t", "<C-\\>", require("nvterm.terminal").toggle, { desc = "Show the Terminal" })
 vim.keymap.set("n", "<S-e>", vim.diagnostic.open_float, { desc = "show floting diagnostic menu" })
@@ -220,16 +199,49 @@ vim.keymap.set('n', '<leader>/', function()
   })
 end, { desc = '[/] Fuzzily search in current buffer' })
 
+vim.cmd [[inoremap zz <esc>]]
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+vim.keymap.set("n", "<leader>gg", "<cmd>Neogit<CR>", opts)
+vim.keymap.set("n", "<C-k>", "<cmd>wincmd k<CR>", opts)
+vim.keymap.set("n", "<C-j>", "<cmd>wincmd j<CR>", opts)
+vim.keymap.set("n", "<C-h>", "<cmd>wincmd h<CR>", opts)
+vim.keymap.set("n", "<C-l>", "<cmd>wincmd l<CR>", opts)
+vim.keymap.set("n", "<esc>", "<esc>:noh<cr>", opts)
+vim.keymap.set("n", "zz", "<esc>:noh<cr>", opts)
+vim.keymap.set("n", "ff", "<esc>:Format<cr>", opts)
+
+vim.keymap.set("n", "<leader>ps", function()
+  builtin.grep_string({ search = vim.fn.input("Grep > ") })
+end)
+
+local dired = require("dired")
+vim.keymap.set("n", "q", function()
+  if vim.bo.filetype ~= "dired" then
+    return dired.open()
+  end
+  if vim.bo.filetype == "dired" then
+    return dired.quit()
+  end
+end, opts)
+
+vim.keymap.set('n', '<C-]>', function()
+  require('focus').split_command("l")
+end)
+
+vim.keymap.set('n', '<C-[>', function()
+  require('focus').split_command("j")
+end)
 
 vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
     ensure_installed = { 'c', 'go', 'lua', 'rust', 'vimdoc', 'vim' },
     auto_install = false,
-
     highlight = { enable = true },
     indent = { enable = true },
     incremental_selection = {
@@ -458,29 +470,6 @@ local Uopts = { unique = true, silent = true, noremap = true }
 local opts = { silent = true, noremap = true }
 
 local builtin = require('telescope.builtin')
-
-vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
-
-vim.cmd [[inoremap zz <esc>]]
-vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-vim.keymap.set("n", "<C-m>", "<cmd>Dired<CR>", opts)
-vim.keymap.set("n", "<leader>gg", "<cmd>Neogit<CR>", opts)
-vim.keymap.set("n", "<C-k>", "<cmd>wincmd k<CR>", opts)
-vim.keymap.set("n", "<C-j>", "<cmd>wincmd j<CR>", opts)
-vim.keymap.set("n", "<C-h>", "<cmd>wincmd h<CR>", opts)
-vim.keymap.set("n", "<C-l>", "<cmd>wincmd l<CR>", opts)
-vim.keymap.set("n", "<esc>", "<esc>:noh<cr>", opts)
-
-vim.keymap.set("n", "<leader>ps", function()
-  builtin.grep_string({ search = vim.fn.input("Grep > ") })
-end)
-
-vim.keymap.set('n', '<c-]>', function()
-  require('focus').split_nicely()
-end, { desc = 'split nicely' })
-
-
 vim.o.hlsearch = false
 vim.opt.relativenumber = true
 vim.opt.swapfile = false
@@ -491,20 +480,26 @@ vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGai
 })
 
 
-vim.api.nvim_create_autocmd({ "BufEnter" }, {
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
   command = "setlocal signcolumn=no",
   pattern = { "*" },
 })
 
-vim.cmd [[autocmd BufWritePre <buffer> lua vim.diagnostic.hide()]]
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+  pattern = { "*" },
+  command = "cclose",
+})
+
+vim.cmd [[autocmd BufEnter <buffer> lua vim.diagnostic.hide()]]
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
-    underline = true,
+    underline = false,
     virtual_text = false,
+    signs = false,
+    update_in_insert = false
   }
 )
-
 
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {

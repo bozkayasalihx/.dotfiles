@@ -1,6 +1,5 @@
 return {
-    -- "X3eRo0/dired.nvim",
-    "X3eRo0/dired.nvim",
+    "bozkayasalihx/dired.nvim",
     dependencies = {
         "MunifTanjim/nui.nvim",
     },
@@ -14,5 +13,4 @@ return {
             show_colors = true,
         }
     end,
-
 }
