@@ -16,7 +16,7 @@ vim.o.timeoutlen = 300
 vim.o.completeopt = 'menuone,noselect'
 vim.o.termguicolors = true
 vim.opt.guicursor = ""
--- vim.o.clipboard = 'unnamedplus'
+vim.o.clipboard = 'unnamedplus'
 
 local function relative_path()
   return vim.fn.expand("%:.")
@@ -57,35 +57,6 @@ require('lazy').setup({
       'rafamadriz/friendly-snippets',
     },
   },
-  -- { 'folke/which-key.nvim',                   opts = {} },
-  -- {
-  --   'lewis6991/gitsigns.nvim',
-  --   opts = {
-  --     signs = {
-  --       add = { text = '+' },
-  --       change = { text = '~' },
-  --       delete = { text = '_' },
-  --       topdelete = { text = '‾' },
-  --       changedelete = { text = '~' },
-  --     },
-  --     on_attach = function(bufnr)
-  --       vim.keymap.set('n', '<leader>hp', require('gitsigns').preview_hunk, { buffer = bufnr, desc = 'Preview git hunk' })
-  --
-  --       -- don't override the built-in and fugitive keymaps
-  --       local gs = package.loaded.gitsigns
-  --       vim.keymap.set({ 'n', 'v' }, ']c', function()
-  --         if vim.wo.diff then return ']c' end
-  --         vim.schedule(function() gs.next_hunk() end)
-  --         return '<Ignore>'
-  --       end, { expr = true, buffer = bufnr, desc = "Jump to next hunk" })
-  --       vim.keymap.set({ 'n', 'v' }, '[c', function()
-  --         if vim.wo.diff then return '[c' end
-  --         vim.schedule(function() gs.prev_hunk() end)
-  --         return '<Ignore>'
-  --       end, { expr = true, buffer = bufnr, desc = "Jump to previous hunk" })
-  --     end,
-  --   },
-  -- },
   {
     'bozkayasalihx/vim-phoenix',
     priority = 1000,
@@ -96,19 +67,8 @@ require('lazy').setup({
   {
     'nvim-focus/focus.nvim',
     lazy = false,
-    config = function(_, opt)
+    config = function()
       require("focus").setup({
-        ui = {
-          cursorline = false,
-          cursorcolumn = false,
-          colorcolumn = {
-            enable = true,
-            list = '+1,+2',
-            cursorline = false,
-          },
-          winhighlight = true,
-        },
-        commands = true,
         autoresize = {
           enable = true,
         },
@@ -146,6 +106,7 @@ require('lazy').setup({
       require("telescope").load_extension("ui-select")
     end,
   },
+  { "nvim-neotest/nvim-nio" },
 
   {
     'nvim-lualine/lualine.nvim',
@@ -190,29 +151,23 @@ require('lazy').setup({
   { import = 'custom.plugins' },
 }, {})
 
+vim.cmd [[
+  nmap <C-h> <C-w>h
+]]
 
+vim.cmd [[
+  nmap <C-n> <C-w>j
+]]
 
--- extensions ends here
--- keymaps
--- require('which-key').register({
---   ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
---   ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
---   ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
---   ['<leader>h'] = { name = 'More git', _ = 'which_key_ignore' },
---   ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
---   ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
---   ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
--- })
+vim.cmd [[
+  nmap <C-j> <C-w>k
+]]
 
+vim.cmd [[
+  nmap <C-l> <C-w>l
+]]
 
--- vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
--- vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
--- vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
--- vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
--- vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
--- vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
--- vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
 vim.keymap.set("n", "<C-p>", function()
   return require("telescope.builtin").find_files()
 end, { desc = "Seach all [F]iles" })
@@ -225,10 +180,10 @@ vim.keymap.set('n', '<leader>/', function()
 end, { desc = '[/] Fuzzily search in current buffer' })
 
 vim.cmd [[inoremap zz <esc>]]
-vim.cmd [[nnoremap <A-w> "+yy ]]
-vim.cmd [[vnoremap <A-w> "+y ]]
-vim.cmd [[nnoremap <A-e> "+p ]]
-vim.cmd [[vnoremap <A-e> "+p ]]
+-- vim.cmd [[nnoremap <M-w> "+yy ]]
+-- vim.cmd [[vnoremap <M-w> "+y ]]
+-- vim.cmd [[nnoremap <M-e> "+p ]]
+-- vim.cmd [[vnoremap <M-e> "+p ]]
 vim.cmd [[xnoremap p P ]]
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
@@ -238,15 +193,12 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 vim.keymap.set("n", "<leader>gg", "<cmd>Neogit<CR>", opts)
-vim.keymap.set("n", "<C-k>", "<cmd>wincmd k<CR>", opts)
-vim.keymap.set("n", "<C-j>", "<cmd>wincmd j<CR>", opts)
-vim.keymap.set("n", "<C-h>", "<cmd>wincmd h<CR>", opts)
-vim.keymap.set("n", "<C-l>", "<cmd>wincmd l<CR>", opts)
 vim.keymap.set("n", "<esc>", "<esc>:noh<cr>", opts)
-vim.keymap.set("n", "zz", "<esc>:noh<cr>", opts)
+-- vim.keymap.set("n", "zz", "<esc>:noh<cr>", opts)
 vim.keymap.set("n", "ff", "<esc>:Format<cr>", opts)
-vim.keymap.set("n", "T", "<esc>:split|resize 20|term<cr>")
 vim.keymap.set("t", "zz", "<C-\\><C-n>>", { noremap = true })
+
+vim.keymap.set("n", "T", "<esc>:split|resize 20|term<cr>")
 
 vim.keymap.set("n", "<leader>ps", function()
   builtin.grep_string({ search = vim.fn.input("Grep > ") })
@@ -263,11 +215,11 @@ vim.keymap.set("n", "q", function()
 end, opts)
 
 vim.keymap.set('n', '<C-]>', function()
-  require('focus').split_command("l")
+  require('focus').split_command("k")
 end)
 
 vim.keymap.set('n', '<C-[>', function()
-  require('focus').split_command("j")
+  require('focus').split_command("l")
 end)
 
 vim.defer_fn(function()
@@ -496,10 +448,11 @@ vim.o.hlsearch = false
 vim.opt.relativenumber = true
 vim.opt.swapfile = false
 vim.o.autoread = true
-vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
-  command = "if mode() != 'c' | checktime | endif",
-  pattern = { "*" },
-})
+
+-- Vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
+--   command = "if mode() != 'c' | checktime | endif",
+--   pattern = { "*" },
+-- })
 
 
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
@@ -512,16 +465,27 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
   command = "cclose",
 })
 
-vim.cmd [[autocmd BufEnter <buffer> lua vim.diagnostic.hide()]]
+vim.api.nvim_create_autocmd("VimEnter", {
+  pattern = "*",
+  callback = function()
+    vim.diagnostic.hide()
+    vim.lsp.with(
+      vim.lsp.diagnostic.on_publish_diagnostics,
+      {
+        underline = false,
+        virtual_text = false,
+        signs = false,
+        update_in_insert = false,
+      }
+    )
+  end
+})
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-    underline = false,
-    virtual_text = false,
-    signs = false,
-    update_in_insert = false
-  }
-)
+vim.api.nvim_create_autocmd("BufEnter", {
+  callback = function()
+    vim.diagnostic.enable(false)
+  end
+})
 
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -530,4 +494,42 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
   group = highlight_group,
   pattern = '*',
+})
+
+vim.api.nvim_create_autocmd("VimEnter", {
+  pattern = '*',
+  callback = function()
+    vim.api.nvim_create_user_command('T', 'split | resize 25 | term <args>', { nargs = '*' })
+  end,
+})
+
+
+local wilder = require('wilder')
+wilder.setup({
+  modes = { ':', '/', '?' },
+  next_key = '<C-l>',
+  previous_key = '<C-h>',
+})
+
+
+function open_file_from_terminal_at_line()
+  local line = vim.api.nvim_get_current_line()
+  local filename, linenumber = string.match(line, "(.*):(%d+)")
+  linenumber = tonumber(linenumber)
+
+  if filename and linenumber then
+    local windows = vim.api.nvim_tabpage_list_wins(0)
+    local target_win = windows[#windows]
+    vim.api.nvim_set_current_win(target_win)
+    vim.cmd('edit +' .. linenumber .. ' ' .. filename)
+  else
+    print("Could not parse the file path and line number.")
+  end
+end
+
+vim.api.nvim_create_autocmd("TermOpen", {
+  pattern = "*",
+  callback = function()
+    vim.api.nvim_buf_set_keymap(0, 'n', 'gd', ':lua open_file_from_terminal_at_line()<CR>', { noremap = true, silent = true })
+  end
 })
